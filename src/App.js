@@ -3,6 +3,79 @@ import { Star, Phone, Mail, MapPin, Clock, Scissors, Users, Award, Instagram, Fa
 
 const HairSalonWebsite = () => {
   const [activeTab, setActiveTab] = useState('all');
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    phone: '',
+    service: '',
+    date: '',
+    message: ''
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // Handle form input changes
+  const handleInputChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  // Handle form submission
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+
+    try {
+      // Using EmailJS REST API directly
+      const templateParams = {
+        from_name: `${formData.firstName} ${formData.lastName}`,
+        from_email: formData.email,
+        phone: formData.phone,
+        service: formData.service,
+        date: formData.date,
+        message: formData.message,
+        to_email: 'pragneshmaru12112001@gmail.com'
+      };
+
+      const response = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
+                                        
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          service_id: 'service_pragnesh',
+          template_id: 'template_9cqomdl',
+          user_id: 'eL4mNe9yoGxs08Hdx',
+          template_params: templateParams
+        })
+      });
+
+      if (response.ok) {
+        alert('🎉 Appointment request sent successfully! We will contact you soon.');
+        
+        // Reset form
+        setFormData({
+          firstName: '',
+          lastName: '',
+          email: '',
+          phone: '',
+          service: '',
+          date: '',
+          message: ''
+        });
+      } else {
+        throw new Error('Failed to send email');
+      }
+    } catch (error) {
+      console.error('Email send failed:', error);
+      alert('❌ Failed to send appointment request. Please try again or call us directly.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   const services = [
     { name: 'Haircut & Styling', price: '$45-65', duration: '45 min', image: 'https://images.unsplash.com/photo-1560066984-138dadb4c035?w=400&h=300&fit=crop' },
@@ -376,34 +449,94 @@ const HairSalonWebsite = () => {
                 <h4 className="mb-4">Book Appointment</h4>
                 <div className="row g-3">
                   <div className="col-sm-6">
-                    <input type="text" className="form-control" placeholder="First Name" />
+                    <input 
+                      type="text" 
+                      className="form-control" 
+                      placeholder="First Name"
+                      name="firstName"
+                      value={formData.firstName}
+                      onChange={handleInputChange}
+                      required
+                    />
                   </div>
                   <div className="col-sm-6">
-                    <input type="text" className="form-control" placeholder="Last Name" />
+                    <input 
+                      type="text" 
+                      className="form-control" 
+                      placeholder="Last Name"
+                      name="lastName"
+                      value={formData.lastName}
+                      onChange={handleInputChange}
+                      required
+                    />
                   </div>
                   <div className="col-12">
-                    <input type="email" className="form-control" placeholder="Email Address" />
+                    <input 
+                      type="email" 
+                      className="form-control" 
+                      placeholder="Email Address"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleInputChange}
+                      required
+                    />
                   </div>
                   <div className="col-12">
-                    <input type="tel" className="form-control" placeholder="Phone Number" />
+                    <input 
+                      type="tel" 
+                      className="form-control" 
+                      placeholder="Phone Number"
+                      name="phone"
+                      value={formData.phone}
+                      onChange={handleInputChange}
+                      required
+                    />
                   </div>
                   <div className="col-sm-6">
-                    <select className="form-select">
-                      <option>Select Service</option>
-                      <option>Haircut & Styling</option>
-                      <option>Hair Coloring</option>
-                      <option>Hair Treatment</option>
-                      <option>Bridal Styling</option>
+                    <select 
+                      className="form-select"
+                      name="service"
+                      value={formData.service}
+                      onChange={handleInputChange}
+                      required
+                    >
+                      <option value="">Select Service</option>
+                      <option value="Haircut & Styling">Haircut & Styling</option>
+                      <option value="Hair Coloring">Hair Coloring</option>
+                      <option value="Hair Treatment">Hair Treatment</option>
+                      <option value="Bridal Styling">Bridal Styling</option>
+                      <option value="Hair Extensions">Hair Extensions</option>
+                      <option value="Beard Styling">Beard Styling</option>
                     </select>
                   </div>
                   <div className="col-sm-6">
-                    <input type="date" className="form-control" />
+                    <input 
+                      type="date" 
+                      className="form-control"
+                      name="date"
+                      value={formData.date}
+                      onChange={handleInputChange}
+                      required
+                    />
                   </div>
                   <div className="col-12">
-                    <textarea className="form-control" rows="4" placeholder="Special Requests"></textarea>
+                    <textarea 
+                      className="form-control" 
+                      rows="4" 
+                      placeholder="Special Requests"
+                      name="message"
+                      value={formData.message}
+                      onChange={handleInputChange}
+                    ></textarea>
                   </div>
                   <div className="col-12">
-                    <button className="btn btn-primary w-100" onClick={() => alert('Appointment request submitted!')}>Book Appointment</button>
+                    <button 
+                      className="btn btn-primary w-100" 
+                      onClick={handleSubmit}
+                      disabled={isSubmitting}
+                    >
+                      {isSubmitting ? '📧 Sending...' : '📅 Book Appointment'}
+                    </button>
                   </div>
                 </div>
               </div>
