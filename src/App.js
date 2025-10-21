@@ -398,7 +398,7 @@ const HairSalonWebsite = () => {
                 helping you look and feel your best.
               </p>
 
-              <div className="row g-4 mb-4">
+              {/* <div className="row g-4 mb-4">
                 <div className="col-sm-6">
                   <div className="d-flex align-items-center">
                     <Users className="text-primary me-3" size={24} />
@@ -419,7 +419,59 @@ const HairSalonWebsite = () => {
                     </div>
                   </div>
                 </div>
+              </div> */}
+              <div className="container my-5">
+                <div className="row g-4 mb-4">
+                  <div className="col-sm-6">
+                    <div className="d-flex align-items-center">
+                      <Users className="text-primary me-3" size={24} />
+                      <div>
+                        <h6 className="mb-1">Expert Stylists</h6>
+                        <small className="text-muted">
+                          Certified professionals
+                        </small>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="col-sm-6">
+                    <div className="d-flex align-items-center">
+                      <Award className="text-primary me-3" size={24} />
+                      <div>
+                        <h6 className="mb-1">Award Winning</h6>
+                        <small className="text-muted">
+                          Industry recognition
+                        </small>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Razorpay verification section */}
+                <div className="mt-4">
+                  <h2 className="mb-2">Products and Services</h2>
+                  <p>
+                    We offer online salon appointment booking and product
+                    purchases for hair care and grooming.
+                  </p>
+
+                  <h2 className="mb-2">Pricing</h2>
+                  <p>
+                    Haircut – ₹250
+                    <br />
+                    Beard Trim – ₹150
+                    <br />
+                    Hair Spa – ₹800
+                  </p>
+
+                  <h2 className="mb-2">Contact</h2>
+                  <p>
+                    Email: pragneshmaru12112001@gmail.com <br />
+                    Phone: +91 7698690157
+                  </p>
+                </div>
               </div>
+
+              <div></div>
 
               <a href="#services" className="btn btn-primary">
                 Explore Our Services
